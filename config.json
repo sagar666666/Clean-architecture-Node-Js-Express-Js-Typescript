@@ -1,0 +1,19 @@
+{
+  "mailer": {
+    "username": "mohitesagar12@gmail.com",
+    "password": "pzqn vunf qfwk vecb",
+    "service": "gmail",
+    "from": "mohitesagar12@gmail.com"
+  },
+  "jwt": {
+    "jwtSecret": "bookSecret123",
+    "jwtAccessTokenExpirationSeconds": "240 sec",
+    "jwtRefreshTokenExpirationSeconds": "1000 sec"
+  },
+  "endPoints": {
+    "openEndPoints": ["/account/login","/account/refreshToken"]
+  },
+  "cors":{
+    "allowedOrigions":"*"
+  }
+}
