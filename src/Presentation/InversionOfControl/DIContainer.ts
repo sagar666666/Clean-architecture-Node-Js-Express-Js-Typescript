@@ -1,4 +1,5 @@
 import { Container } from "inversify";
+import 'reflect-metadata'; 
 import { IMailer } from "../../Infrastructure/Interfaces/IMailer";
 import { INTERFACE_TYPE } from "../../Domain/Constants/app-constants";
 import { IBookRepository } from "../../Infrastructure/IRepositories/IBookRepository";
@@ -18,7 +19,6 @@ import { IUserRepository } from "../../Infrastructure/IRepositories/IUserReposit
 import { IRefreshTokenRepository } from "../../Infrastructure/IRepositories/IRefreshTokenRepository";
 import { UUIDService } from "../../Infrastructure/UUID/uuidService";
 import { IuuidService } from "../../Infrastructure/Interfaces/IuuidService";
-
 const container = new Container();
 container.bind<IMailer>(INTERFACE_TYPE.Mailer).to(Mailer);
 container.bind<IBookRepository>(INTERFACE_TYPE.BookRepository).to(BookRepository);

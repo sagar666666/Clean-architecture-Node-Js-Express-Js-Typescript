@@ -16,5 +16,8 @@ if (process.env.NODE_ENV === 'uat') {
 if (process.env.NODE_ENV === 'dev') {
   logger = devLogger();
 }
+else{
+  logger = devLogger();
+}
 
 export default logger;

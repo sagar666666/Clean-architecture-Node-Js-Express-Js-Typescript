@@ -14,19 +14,19 @@ datasource db {
 }
 
 model Book {
-  Id          Int      @id(map: "PK_Book") @default(autoincrement())
-  Name        String   @db.NVarChar(60)
-  Author      String   @db.NVarChar(30)
-  Category    String   @db.NVarChar(50)
+  id          Int      @id(map: "PK_Book") @default(autoincrement())
+  name        String   @db.NVarChar(60)
+  author      String   @db.NVarChar(30)
+  category    String   @db.NVarChar(50)
 }
 
 model User {
   id          String   @id @unique @default(uuid())
-  FirstName   String   @db.NVarChar(30)
-  LastName    String   @db.NVarChar(30)
-  Email       String   @db.NVarChar(50)
-  UserName    String   @db.NVarChar(50)
-  Password    String   @db.NVarChar(50)
+  firstName   String   @db.NVarChar(30)
+  lastName    String   @db.NVarChar(30)
+  email       String   @db.NVarChar(50)
+  userName    String   @db.NVarChar(50)
+  password    String   @db.NVarChar(50)
   refreshTokens RefreshToken[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt

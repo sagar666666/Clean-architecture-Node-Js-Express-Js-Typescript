@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import * as jwt from 'jsonwebtoken';
 import { JwtPayload } from "jsonwebtoken";
 import config from "../../../config.json"
+import { HTTPStatusCode } from "../../Domain/Enums/httpStatusCode";
 
 export interface CustomRequest extends Request {
     token: string | JwtPayload;
@@ -16,9 +17,9 @@ export const authMiddleware = (request: Request, response: Response, next: NextF
             (request as CustomRequest).token = decodedInfo
             next();
         } else {
-            response.status(401).send("Invalid token");
+            response.status(HTTPStatusCode.Unauthorized).send("Invalid token");
         }
     } catch (error:any) {
-        response.status(401).send(error.message);
+        response.status(HTTPStatusCode.Unauthorized).send(error.message);
     }
 }

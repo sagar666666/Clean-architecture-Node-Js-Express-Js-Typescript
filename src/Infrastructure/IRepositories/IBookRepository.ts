@@ -1,11 +1,12 @@
-import { Book } from "@prisma/client";
+import { Book } from "../../Domain/Entities/Book";
+
 
 export interface IBookRepository{
-    create(book:Book):Promise<any>;
+    create(book:Book):Promise<Book>;
 
-    update(id:number, book:Book):Promise<any>;
+    update(id:number, book:Book):Promise<Book>;
 
-    find(id:number):Promise<any>;
+    find(id:number):Promise<Book|null>;
 
-    get():Promise<any>;
+    get():Promise<Book[]>;
 }

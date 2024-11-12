@@ -7,6 +7,8 @@ import { IUserRepository } from "../../Infrastructure/IRepositories/IUserReposit
 import { IRefreshTokenRepository } from "../../Infrastructure/IRepositories/IRefreshTokenRepository";
 import { UUIDService } from "../../Infrastructure/UUID/uuidService";
 import { IuuidService } from "../../Infrastructure/Interfaces/IuuidService";
+import { HTTPStatusCode } from "../../Domain/Enums/httpStatusCode";
+import 'reflect-metadata';
 
 @injectable()
 export class AccountInteractor implements IAccountInteractor {
@@ -36,21 +38,21 @@ export class AccountInteractor implements IAccountInteractor {
                 let accessToken = this.tokenService.issueAccessToken(user);
                 let refreshToken = this.tokenService.issueRefreshToken(user, idRefreshToken);
                 await this.refreshTokenRepo.addRefreshTokenToDb(idRefreshToken, this.tokenService.hashedToken(refreshToken), user.id);
-                return response.status(200).json({ isSuccess: true, accessToken: accessToken, refreshToken: refreshToken });
+                return response.status(HTTPStatusCode.Ok).json({ isSuccess: true, accessToken: accessToken, refreshToken: refreshToken });
             }
             else {
-                return response.status(403).json({ isSuccess: false, resonForFailure: 'Invalid username or password' });
+                return response.status(HTTPStatusCode.Forbidden).json({ isSuccess: false, resonForFailure: 'Invalid username or password' });
             }
         }
         else {
-            return response.status(400).json({ isSuccess: false, reasonForFailure: 'email and password should be required' })
+            return response.status(HTTPStatusCode.BadRequest).json({ isSuccess: false, reasonForFailure: 'email and password should be required' })
         }
     }
 
     async refreshToken(request: Request, response: Response) {
         const { refreshToken } = request.body;
         if (!refreshToken) {
-            return { isSuccess: false, reasonForFailure: 'Missing refresh token' }
+            return response.status(HTTPStatusCode.BadRequest).json({ isSuccess: false, reasonForFailure: 'Missing refresh token' });
         }
 
         try {
@@ -58,29 +60,29 @@ export class AccountInteractor implements IAccountInteractor {
             const savedRefreshToken = await this.refreshTokenRepo.findRefreshTokenById(payload.jti);
 
             if (!savedRefreshToken || savedRefreshToken.revoked === true) {
-                response.status(401).json({ isSuccess: false, reasonForFailure: 'Unauthorized' });
+                return response.status(HTTPStatusCode.Unauthorized).json({ isSuccess: false, reasonForFailure: 'Unauthorized' });
             }
 
             const hashedToken = this.tokenService.hashedToken(refreshToken);
-            if (hashedToken !== savedRefreshToken.hashedToken) {
-                response.status(401).json({ isSuccess: false, reasonForFailure: 'Unauthorized' });
+            if (hashedToken !== savedRefreshToken!.hashedToken) {
+                return response.status(HTTPStatusCode.Unauthorized).json({ isSuccess: false, reasonForFailure: 'Unauthorized' });
             }
 
             const user = await this.userRepo.getUserById(payload.userId);
 
             if (!user) {
-                response.status(401).json({ isSuccess: true, reasonForFailure: 'Unauthorized' });
+                return response.status(HTTPStatusCode.Unauthorized).json({ isSuccess: false, reasonForFailure: 'Unauthorized' });
             }
 
-            await this.refreshTokenRepo.deleteRefreshToken(savedRefreshToken.id);
+            await this.refreshTokenRepo.deleteRefreshToken(savedRefreshToken!.id);
             const idRefreshToken = this.uuid.getNewId();
-            let newAccessToken = this.tokenService.issueAccessToken(user);
-            let newRefreshToken = this.tokenService.issueRefreshToken(user, idRefreshToken);
-            await this.refreshTokenRepo.addRefreshTokenToDb(idRefreshToken, this.tokenService.hashedToken(refreshToken), user.id);
-            return response.status(200).json({ isSuccess: true, accessToken: newAccessToken, refreshToken: newRefreshToken });
+            let newAccessToken = this.tokenService.issueAccessToken(user!);
+            let newRefreshToken = this.tokenService.issueRefreshToken(user!, idRefreshToken);
+            await this.refreshTokenRepo.addRefreshTokenToDb(idRefreshToken, this.tokenService.hashedToken(refreshToken), user!.id);
+            return response.status(HTTPStatusCode.Ok).json({ isSuccess: true, accessToken: newAccessToken, refreshToken: newRefreshToken });
         }
         catch (error: any) {
-            return response.status(401).json({ isSuccess: false, reasonForFailure: error.message });
+            return response.status(HTTPStatusCode.Unauthorized).json({ isSuccess: false, reasonForFailure: error.message });
         }
     }
 
@@ -88,17 +90,17 @@ export class AccountInteractor implements IAccountInteractor {
         const { userId } = request.body;
 
         if (!userId) {
-            response.status(400).json({ isSuccess: false, reasonForFailure: 'user id should be required' });
+            return response.status(HTTPStatusCode.BadRequest).json({ isSuccess: false, reasonForFailure: 'user id should be required' });
         }
 
         const user = await this.userRepo.getUserById(userId);
 
         if (!user) {
-            return response.status(403).json({ isSuccess: false, resonForFailure: 'Invalid user id' });
+            return response.status(HTTPStatusCode.Forbidden).json({ isSuccess: false, resonForFailure: 'Invalid user id' });
         }
 
         // revoke all tokens
         await this.refreshTokenRepo.deleteRefreshTokensForUser(user.id);
-        return response.status(200).json({ isSuccess: true, messageOnSuccess: 'Logged out successfully.' });
+        return response.status(HTTPStatusCode.Ok).json({ isSuccess: true, messageOnSuccess: 'Logged out successfully.' });
     }
 }

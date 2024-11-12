@@ -3,13 +3,14 @@ import { IMailer } from "../Interfaces/IMailer";
 import nodemailer from "nodemailer";
 import config from "../../../config.json";
 import logger from "../logger/logger";
+import 'reflect-metadata';
 
 @injectable()
 export class Mailer implements IMailer {
   sendMail(toList: string[], body: string, sub: string) {
 
     let transporter = nodemailer.createTransport({
-      service: config.mailer.service, // Use your email provider
+      service: config.mailer.service, // My provider sagar mohite 
       auth: {
         user: config.mailer.username,
         pass: config.mailer.password,

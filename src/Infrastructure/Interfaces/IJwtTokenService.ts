@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { User } from "../../Domain/Entities/User";
 
 export interface IJwtTokenService{
     issueAccessToken(user: User):string;

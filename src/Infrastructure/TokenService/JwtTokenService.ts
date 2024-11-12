@@ -3,7 +3,8 @@ import { IJwtTokenService } from "../Interfaces/IJwtTokenService";
 import * as jwt from "jsonwebtoken";
 import config from "../../../config.json";
 import { createHash } from "crypto";
-import { User } from "@prisma/client";
+import { User } from "../../Domain/Entities/User";
+import 'reflect-metadata';
 
 @injectable()
 export class JwtTokenService implements IJwtTokenService {
@@ -16,7 +17,7 @@ export class JwtTokenService implements IJwtTokenService {
         return accessToken;
     }
 
-    issueRefreshToken(user: User, idRefreshToken): string {
+    issueRefreshToken(user: User, idRefreshToken:string): string {
 
         const refreshToken = jwt.sign({ userId: user.id, idRefreshToken }, config.jwt.jwtSecret, {
             expiresIn: config.jwt.jwtRefreshTokenExpirationSeconds

@@ -1,13 +1,15 @@
 import { injectable } from "inversify";
 import { IRefreshTokenRepository } from "../IRepositories/IRefreshTokenRepository";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, RefreshToken as RefreshTokenModel } from "@prisma/client";
+import { RefreshToken } from "../../Domain/Entities/RefreshToken";
+import 'reflect-metadata';
 
 @injectable()
 export class RefreshTokenRepository implements IRefreshTokenRepository {
     private prisma: PrismaClient;
 
     constructor() {
-        this, this.prisma = new PrismaClient();
+        this.prisma = new PrismaClient();
     }
 
     async deleteRefreshTokensForUser(userId: string): Promise<any> {
@@ -39,11 +41,28 @@ export class RefreshTokenRepository implements IRefreshTokenRepository {
         });
     }
 
-    async findRefreshTokenById(id: string) {
-        return await this.prisma.refreshToken.findUnique({
+    async findRefreshTokenById(id: string):Promise<RefreshToken|null> {
+        const refreshToken =  await this.prisma.refreshToken.findUnique({
             where: {
                 id,
             },
+        });
+        
+        if (!refreshToken) {
+            return null;
+        }
+
+        return this.toEntity(refreshToken);
+    }
+
+    toEntity(refreshToken: RefreshTokenModel): RefreshToken {
+        return new RefreshToken({
+            id: refreshToken.id,
+            hashedToken: refreshToken.hashedToken,
+            userId: refreshToken.userId,
+            revoked: refreshToken.revoked,
+            updatedAt: refreshToken.updatedAt,
+            createdAt: refreshToken.createdAt,
         });
     }
 }

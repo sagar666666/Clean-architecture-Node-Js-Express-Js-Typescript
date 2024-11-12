@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { inject, injectable } from "inversify";
 import { INTERFACE_TYPE } from "../../Domain/Constants/app-constants";
 import { IBookInteractor } from "../../Application/IInteractors/IBookInteractor";
+import 'reflect-metadata';
 
 @injectable()
 export class BookController {

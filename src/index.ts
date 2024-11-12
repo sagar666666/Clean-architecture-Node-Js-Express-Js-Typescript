@@ -7,17 +7,22 @@ import { openEndPoints } from "./Presentation/utility/openEndPointsResolver";
 import config from "../config.json";
 import cors, {CorsOptions} from "cors"
 import masterRouter from "./Presentation/Routes/masterRoutes";
+import { performace } from "./Presentation/Middlewares/performaceMonitorMiddleware";
 
 
 const PORT = process.env.PORT || 3000;
 
-const app = express();
+export const app = express();
 
 const corsOptions:CorsOptions = {
   credentials: true,
   origin: config.cors.allowedOrigions,
   optionsSuccessStatus: 200
 };
+
+app.set('trust proxy', true);
+
+app.use(performace);
 
 app.use(cors(corsOptions));
 
@@ -49,7 +54,6 @@ app.use(
     frameguard: false,
   })
 );
-
 
 app.use(express.json());
 

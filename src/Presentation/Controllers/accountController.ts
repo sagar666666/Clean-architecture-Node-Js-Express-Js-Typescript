@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { inject, injectable } from "inversify";
 import { INTERFACE_TYPE } from "../../Domain/Constants/app-constants";
 import { IAccountInteractor } from "../../Application/IInteractors/IAccountInteractor";
+import 'reflect-metadata';
 
 @injectable()
 export class AccountController {
@@ -36,5 +37,4 @@ export class AccountController {
             next(error);
         }
     }
-
 }

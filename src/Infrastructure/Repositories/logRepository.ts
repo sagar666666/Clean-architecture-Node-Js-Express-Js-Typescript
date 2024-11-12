@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
 import { injectable } from "inversify";
 import { ILogRepository } from "../IRepositories/ILogRepository";
+import { PrismaClient } from "@prisma/client";
 
 @injectable()
 export class LogRepository implements ILogRepository {

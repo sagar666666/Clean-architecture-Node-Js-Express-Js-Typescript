@@ -1,41 +1,60 @@
 import { injectable } from "inversify";
 import { IBookRepository } from "../IRepositories/IBookRepository";
-import { PrismaClient } from '@prisma/client'
+import { Book as BookModel, PrismaClient } from "@prisma/client"
+import { Book } from "../../Domain/Entities/Book";
+import 'reflect-metadata';
 
 @injectable()
 export class BookRepository implements IBookRepository {
-    private prisma: PrismaClient;
+
+    private prisma:PrismaClient;
 
     constructor() {
         this.prisma = new PrismaClient();
     }
 
-    async create(book: any): Promise<any> {
-        return await this.prisma.book.create({data:book});
+    async create(book: Book): Promise<Book> {
+        return await this.prisma.book.create({ data: book });
     }
 
-    async update(id: number, book: any): Promise<any> {
-       return await this.prisma.book.update({
+    async update(id: number, book: Book): Promise<any> {
+        return await this.prisma.book.update({
             where: {
-                Id: id,
+                id: id,
             },
             data: {
-                Name:book.Name,
-                Author:book.Author,
-                Category:book.Category
+                name: book.name,
+                author: book.author,
+                category: book.category
             }
         });
     }
 
-    async find(identifier: number): Promise<any> {
-        return await this.prisma.book.findUnique({
+    async find(identifier: number): Promise<Book|null> {
+        const book = await this.prisma.book.findUnique({
             where: {
-                Id: identifier,
+                id: identifier,
             },
         });
+
+        if (!book) {
+            return null;
+        }
+
+        return this.toEntity(book);
     }
 
-    async get(): Promise<any> {
-        return await this.prisma.book.findMany();
+    async get(): Promise<Book[]> {
+        const books = await this.prisma.book.findMany();
+        return Array.isArray(books) ? books.map(this.toEntity) : [];
+    }
+
+    toEntity(book: BookModel): Book {
+        return new Book({
+            id: book.id,
+            name: book.name,
+            author: book.author,
+            category: book.category
+        });
     }
 }
