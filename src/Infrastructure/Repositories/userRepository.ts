@@ -12,6 +12,10 @@ export class UserRepository implements IUserRepository {
         this.prisma = new PrismaClient();
     }
 
+    async addUser(user: User): Promise<User> {
+        return await this.prisma.user.create({data:user});
+    }
+
     async getUserById(id: string): Promise<User | null> {
         const user = await this.prisma.user.findUnique({
             where: {
@@ -35,7 +39,7 @@ export class UserRepository implements IUserRepository {
                 ]
             }
         });
-        
+
         if (!user) {
             return null;
         }

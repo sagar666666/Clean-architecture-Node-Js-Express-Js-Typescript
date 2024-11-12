@@ -9,5 +9,7 @@ export const INTERFACE_TYPE = {
     UserRepository:Symbol.for("UserRepository"),
     JwtTokenService:Symbol.for("JwtTokenService"),
     RefreshTokenRepository:Symbol.for("RefreshTokenRepository"),
-    uuidService:Symbol.for("uuidService")
+    uuidService:Symbol.for("uuidService"),
+    UserInteractor: Symbol.for("UserInteractor"),
+    UserController:Symbol.for("UserController"),
   };

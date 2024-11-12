@@ -18,6 +18,7 @@ describe('AccountInteractor', () => {
     let userRepoMock: jest.Mocked<IUserRepository> = {
         getUser: jest.fn().mockResolvedValue({ id: 'user-id', userName: 'testuser', password: 'password' }), // Mock async method
         getUserById: jest.fn().mockResolvedValue({ id: 'user-id', userName: 'testuser', password: 'password' }),
+        addUser:jest.fn().mockResolvedValue({ id: 'user-id', userName: 'testuser', password: 'password' })
     };
 
     let tokenServiceMock: jest.Mocked<IJwtTokenService> = {

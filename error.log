@@ -1,0 +1,44 @@
+2024-11-12 13:17:52 dev [[31merror[39m]: 
+Invalid `this.prisma.user.create()` invocation in
+C:\VSTS\ExpressProject\BookLibrary\src\Infrastructure\Repositories\userRepository.ts:16:39
+
+  13 }
+  14 
+  15 async addUser(user: User): Promise<User> {
+→ 16     return await this.prisma.user.create({
+           data: {
+             id: "732A69B0-61BF-427A-98B1-5D3F2CFFFFD1",
+             firstName: "Vivek",
+             lastName: "Kale",
+             email: "vk@gmail.com",
+             userName: "vivek.kale",
+             password: "Vkale@1234",
+             updatedAt: "2023-12-08 11:57:08.8670000",
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+             createdAt: "2023-12-08 11:57:08.8670000"
+           }
+         })
+
+Invalid value for argument `updatedAt`: premature end of input. Expected ISO-8601 DateTime.
+2024-11-12 13:46:03 dev [[31merror[39m]: 
+Invalid `this.prisma.user.create()` invocation in
+C:\VSTS\ExpressProject\BookLibrary\src\Infrastructure\Repositories\userRepository.ts:16:39
+
+  13 }
+  14 
+  15 async addUser(user: User): Promise<User> {
+→ 16     return await this.prisma.user.create({
+           data: {
+             id: "732A69B0-61BF-427A-98B1-5D3F2CFFFFD1",
+             firstName: "Vivek",
+             lastName: "Kale",
+             email: "vk@gmail.com",
+             userName: "vivek.kale",
+             password: "Vkale@1234",
+             updatedAt: "2023-12-08 11:57:08.8670000",
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+             createdAt: "2023-12-08 11:57:08.8670000"
+           }
+         })
+
+Invalid value for argument `updatedAt`: premature end of input. Expected ISO-8601 DateTime.

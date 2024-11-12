@@ -19,6 +19,9 @@ import { IUserRepository } from "../../Infrastructure/IRepositories/IUserReposit
 import { IRefreshTokenRepository } from "../../Infrastructure/IRepositories/IRefreshTokenRepository";
 import { UUIDService } from "../../Infrastructure/UUID/uuidService";
 import { IuuidService } from "../../Infrastructure/Interfaces/IuuidService";
+import { IUserInteractor } from "../../Application/IInteractors/IUserInteractor";
+import { UserInteractor } from "../../Application/Interactors/userInteractor";
+import { UserController } from "../Controllers/userController";
 const container = new Container();
 container.bind<IMailer>(INTERFACE_TYPE.Mailer).to(Mailer);
 container.bind<IBookRepository>(INTERFACE_TYPE.BookRepository).to(BookRepository);
@@ -28,6 +31,8 @@ container.bind<IUserRepository>(INTERFACE_TYPE.UserRepository).to(UserRepository
 container.bind<IJwtTokenService>(INTERFACE_TYPE.JwtTokenService).to(JwtTokenService);
 container.bind<IRefreshTokenRepository>(INTERFACE_TYPE.RefreshTokenRepository).to(RefreshTokenRepository);
 container.bind<IuuidService>(INTERFACE_TYPE.uuidService).to(UUIDService);
+container.bind<IUserInteractor>(INTERFACE_TYPE.UserInteractor).to(UserInteractor);
 container.bind(INTERFACE_TYPE.AccountController).to(AccountController);
 container.bind(INTERFACE_TYPE.BookController).to(BookController);
+container.bind(INTERFACE_TYPE.UserController).to(UserController);
 export { container };

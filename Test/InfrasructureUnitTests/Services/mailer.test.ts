@@ -36,6 +36,7 @@ describe('Mailer', () => {
       mockSendMail.mockImplementationOnce((mailOptions, callback) => {
         callback(null, { response: 'Message sent successfully!' });
       });
+      
       await mailer.sendMail(toList, body, sub);
       expect(mockSendMail).toHaveBeenCalledWith(
         {

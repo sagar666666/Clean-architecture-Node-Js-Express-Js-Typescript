@@ -15,5 +15,6 @@
   },
   "cors":{
     "allowedOrigions":"*"
-  }
+  },
+  "addUserMailToList":["mohitesagar12@gmail.com"]
 }
