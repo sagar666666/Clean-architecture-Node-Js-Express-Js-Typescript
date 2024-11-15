@@ -1,16 +1,15 @@
-import { User } from '../../src/Domain/Entities/User'; // Adjust the path to your User class
+import { User } from '../../src/Domain/Entities/User';
 
 describe('User Class', () => {
 
-    // Test Case 1: Valid User Creation
     it('should create a User instance successfully with valid data', () => {
         const userData = {
             id: '123',
-            firstName: 'John',
-            lastName: 'Doe',
-            email: 'john.doe@example.com',
-            userName: 'johndoe',
-            password: 'password123',
+            firstName: 'Sagar',
+            lastName: 'Mohite',
+            email: 'sagar.mohite@.com',
+            userName: 'sagar.mohite',
+            password: 'Sagar@12345',
             updatedAt: new Date(),
             createdAt: new Date()
         };
