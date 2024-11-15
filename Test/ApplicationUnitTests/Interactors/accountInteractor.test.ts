@@ -70,7 +70,7 @@ describe('AccountInteractor', () => {
             refreshTokenRepoMock.addRefreshTokenToDb.mockResolvedValue(true);
 
             const req = { body: { userName: 'testuser', password: 'password123' } };
-            const res = { status: jest.fn().mockReturnThis(), json: jest.fn().mockReturnThis() };
+            const res = { status: jest.fn().mockReturnThis(), json: jest.fn().mockReturnThis()};
 
             await accountInteractor.login(req as any, res as any);
 
