@@ -5,7 +5,7 @@ import { IMailer } from '../../../src/Infrastructure/Interfaces/IMailer';
 import { HTTPStatusCode } from '../../../src/Domain/Enums/httpStatusCode';
 
 jest.mock('../../../config.json', () => ({
-    addUserMailToList: 'mohitesagar12@gmail.com',
+    addUserMailToList: 'mohitesagar12@gmail.com ',
 }));
 
 const mockUserRepository: jest.Mocked<IUserRepository> = {
