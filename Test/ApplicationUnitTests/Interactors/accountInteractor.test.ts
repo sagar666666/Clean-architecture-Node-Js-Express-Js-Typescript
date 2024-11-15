@@ -25,7 +25,7 @@ describe('AccountInteractor', () => {
         issueAccessToken: jest.fn().mockReturnValue("access-token"),
         issueRefreshToken: jest.fn().mockReturnValue("refresh-token"),
         hashedToken: jest.fn().mockReturnValue("hashed-token"),
-        verifyRefreshToken: jest.fn().mockReturnValue({ userId: 'user-id', jti: 'refresh-token-id' }),
+        verifyRefreshToken: jest.fn().mockReturnValue({ userId: 'user-id', jti: 'refresh-token-id' } ),
     };
 
     let refreshTokenRepoMock: jest.Mocked<IRefreshTokenRepository> = {
